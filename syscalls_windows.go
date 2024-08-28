@@ -236,6 +236,9 @@ func setTUN(fd syscall.Handle, network string) error {
 
 // openDev find and open an interface.
 func openDev(config Config) (ifce *Interface, err error) {
+	if config.DeviceType == TUN {
+		return openTunDev(config)
+	}
 	// find the device in registry.
 	deviceid, err := getdeviceid(config.PlatformSpecificParams.ComponentID, config.PlatformSpecificParams.InterfaceName)
 	if err != nil {
