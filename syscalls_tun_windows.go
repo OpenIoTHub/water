@@ -82,17 +82,17 @@ func openTunDev(config Config) (ifce *Interface, err error) {
 		0xFFFF,
 		[8]byte{0xFF, 0xe9, 0x76, 0xe5, 0x8c, 0x74, 0x06, 0x3e},
 	}
-	if config.PlatformSpecificParams.Name == "" {
-		config.PlatformSpecificParams.Name = "WaterIface"
+	if config.PlatformSpecificParams.InterfaceName == "" {
+		config.PlatformSpecificParams.InterfaceName = "WaterIface"
 	}
-	nativeTunDevice, err := CreateTUNWithRequestedGUID(config.PlatformSpecificParams.Name, gUID, 0)
+	nativeTunDevice, err := CreateTUNWithRequestedGUID(config.PlatformSpecificParams.InterfaceName, gUID, 0)
 	if err != nil {
 		return nil, err
 	}
 	ifce = &Interface{
 		isTAP:           config.DeviceType == TAP,
 		ReadWriteCloser: &WTun{dev: nativeTunDevice},
-		name:            config.PlatformSpecificParams.Name,
+		name:            config.PlatformSpecificParams.InterfaceName,
 	}
 	return ifce, nil
 }
